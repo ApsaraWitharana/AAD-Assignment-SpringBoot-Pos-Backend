@@ -8,7 +8,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
+/**
+ * @author : sachini
+ * @date : 2024-10-04
+ **/
 @Entity
 @Data
 @AllArgsConstructor
