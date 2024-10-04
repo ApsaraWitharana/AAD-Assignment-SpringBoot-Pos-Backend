@@ -11,6 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class HealthTestController {
     @GetMapping
     public String healthTest(){
-        return "Customer Controller run Successfully!!";
+        return "Server Controller run Successfully!!";
     }
 }
