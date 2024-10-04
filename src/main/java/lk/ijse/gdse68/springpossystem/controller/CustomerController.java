@@ -23,10 +23,26 @@ public class CustomerController {
     //TODO:Customer CRUD Implement
 
     @PostMapping
-    public ResponseEntity<Void> saveCustomer(@RequestBody CustomerDTO customerDTO){
-        if (customerDTO == null){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }else {
+    public ResponseEntity<String> saveCustomer(@RequestBody CustomerDTO customerDTO){
+        //TODO : Validate
+
+        if (customerDTO.getId() == null || !customerDTO.getId().matches("^CUS-[0-9]{3}$")) {
+            return new ResponseEntity<>("Customer ID is empty or invalid! It should match 'CUS-000' format.", HttpStatus.BAD_REQUEST);
+        }
+
+        if (customerDTO.getName() == null || !customerDTO.getName().matches("^[A-Za-z ]{4,}$")) {
+            return new ResponseEntity<>("Customer Name is empty or invalid! It should contain at least 4 alphabetic characters.", HttpStatus.BAD_REQUEST);
+        }
+
+        if (customerDTO.getAddress() == null || !customerDTO.getAddress().matches("^[A-Za-z0-9., -]{5,}$")) {
+            return new ResponseEntity<>("Customer Address is empty or invalid! It should contain at least 5 alphanumeric characters.", HttpStatus.BAD_REQUEST);
+        }
+
+        if (customerDTO.getSalary() <= 0) {
+            return new ResponseEntity<>("Customer Salary is empty or invalid! It must be greater than 0.", HttpStatus.BAD_REQUEST);
+        }
+
+        //TODO :If all validations pass, save the customer
             try {
                 customerService.saveCustomer(customerDTO);
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -38,4 +54,4 @@ public class CustomerController {
             }
         }
     }
-}
+
