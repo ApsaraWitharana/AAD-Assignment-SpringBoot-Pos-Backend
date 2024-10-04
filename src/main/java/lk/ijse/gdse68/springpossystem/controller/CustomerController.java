@@ -1,9 +1,12 @@
 package lk.ijse.gdse68.springpossystem.controller;
 
 import lk.ijse.gdse68.springpossystem.dto.CustomerDTO;
+import lk.ijse.gdse68.springpossystem.entity.Customer;
 import lk.ijse.gdse68.springpossystem.exception.DataPersistFailedException;
 import lk.ijse.gdse68.springpossystem.service.CustomerService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +22,8 @@ public class CustomerController {
 
     @Autowired
     private final CustomerService customerService;
+
+    Logger logger = LoggerFactory.getLogger(Customer.class);
 
     //TODO:Customer CRUD Implement
 
@@ -45,12 +50,13 @@ public class CustomerController {
         //TODO :If all validations pass, save the customer
             try {
                 customerService.saveCustomer(customerDTO);
+                logger.info("connection initialized");
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
             }catch (DataPersistFailedException e){
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>("Customer data could not be saved, data persistence failed.",HttpStatus.NOT_FOUND);
             }catch (Exception e){
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                return new ResponseEntity<>("Internal server error occurred while saving the customer.",HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
     }
