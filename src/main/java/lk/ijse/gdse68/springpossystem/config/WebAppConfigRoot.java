@@ -11,11 +11,13 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = "lk.ijse.gdse68.springpossystem")
-@EnableJpaRepositories
+@EnableJpaRepositories(basePackages = "lk.ijse.gdse68.springpossystem")
 @EnableTransactionManagement
-public class WepAppConfigRoot {
+public class WebAppConfigRoot {
     @Bean
     public ModelMapper modelMapper(){
         return new ModelMapper();
     }
+
 }
+
