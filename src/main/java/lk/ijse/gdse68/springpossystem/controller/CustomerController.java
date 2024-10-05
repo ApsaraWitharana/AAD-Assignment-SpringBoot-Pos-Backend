@@ -114,12 +114,18 @@ public class CustomerController {
          //TODO: GetSelectedCustomerId
     @GetMapping(value = "/{id}")
     public ResponseEntity<CustomerResponse> getSelectCustomer(@PathVariable("id") String id) {
-        CustomerResponse customer = customerService.getSelectedCustomer(id);
-        if (customer == null) {
-            return new ResponseEntity<>( HttpStatus.NOT_FOUND);
+        try {
+            CustomerResponse customer =  customerService.getSelectedCustomer(id);
+            if (customer == null) {
+                return new ResponseEntity<>( HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(customer, HttpStatus.OK);
-    }
+    }catch (Exception e){
+            logger.error("Error fetching customer: ", e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        }
 
     //TODO: GetAllCustomer
     @GetMapping

@@ -9,6 +9,8 @@ import lk.ijse.gdse68.springpossystem.exception.CustomerNoteFound;
 import lk.ijse.gdse68.springpossystem.exception.DataPersistFailedException;
 import lk.ijse.gdse68.springpossystem.util.AppUtil;
 import lk.ijse.gdse68.springpossystem.util.Mapping;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +29,8 @@ public class CustomerServiceImpl implements CustomerService{
     private Mapping mapping;
     @Autowired
     private CustomerDAO customerDAO;
+    Logger logger = LoggerFactory.getLogger(Customer.class);
+
     @Override
     public void saveCustomer(CustomerDTO customerDTO) {
 
@@ -70,20 +74,21 @@ public class CustomerServiceImpl implements CustomerService{
             }
         }
 
-
     @Override
     public CustomerResponse getSelectedCustomer(String id) {
-
+        logger.info("Fetching customer with ID: " + id); // Add logging
         if (customerDAO.existsById(id)) {
-            Customer customerEntityById = customerDAO.getCustomerById(id);
-            return (CustomerResponse) mapping.convertToDTO(customerEntityById);
+            Customer customerEntityById = customerDAO.getCustomerEntityById(id);
+            if (customerEntityById == null) {
+                logger.warn("No customer found for ID: " + id);
+                return new CustomerErrorResponse(0, "Customer not found!");
+            }
+            return (CustomerResponse) mapping.convertToDTO(customerEntityById); // Ensure this returns the correct type
         } else {
+            logger.warn("Customer does not exist with ID: " + id);
             return new CustomerErrorResponse(0, "Customer not found!");
-
         }
     }
-
-
 
     @Override
     public List<CustomerDTO> getAllCustomers() {
