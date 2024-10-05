@@ -3,6 +3,8 @@ package lk.ijse.gdse68.springpossystem.service;
 import lk.ijse.gdse68.springpossystem.customerObj.CustomerResponse;
 import lk.ijse.gdse68.springpossystem.dao.CustomerDAO;
 import lk.ijse.gdse68.springpossystem.dto.CustomerDTO;
+import lk.ijse.gdse68.springpossystem.entity.Customer;
+import lk.ijse.gdse68.springpossystem.exception.CustomerNoteFound;
 import lk.ijse.gdse68.springpossystem.exception.DataPersistFailedException;
 import lk.ijse.gdse68.springpossystem.util.AppUtil;
 import lk.ijse.gdse68.springpossystem.util.Mapping;
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author : sachini
@@ -39,6 +42,18 @@ public class CustomerServiceImpl implements CustomerService{
     @Override
     public void updateCustomer(String id, CustomerDTO customerDTO) {
 
+        Optional<Customer> tmpCustomerEntity = customerDAO.findById(id);
+        if (!tmpCustomerEntity.isPresent()){
+            throw new CustomerNoteFound("Customer update not found!");
+
+        }else {
+            Customer customer = tmpCustomerEntity.get();
+            customer.setName(customerDTO.getName());
+            customer.setAddress(customerDTO.getAddress());
+            customer.setSalary(customerDTO.getSalary());
+            customerDAO.save(customer); // Save the updated entity back to the database
+
+        }
     }
 
     @Override
