@@ -1,5 +1,7 @@
 package lk.ijse.gdse68.springpossystem.controller;
 
+import lk.ijse.gdse68.springpossystem.customerObj.CustomerErrorResponse;
+import lk.ijse.gdse68.springpossystem.customerObj.CustomerResponse;
 import lk.ijse.gdse68.springpossystem.dto.CustomerDTO;
 import lk.ijse.gdse68.springpossystem.entity.Customer;
 import lk.ijse.gdse68.springpossystem.exception.CustomerNoteFound;
@@ -13,6 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author : sachini
@@ -106,5 +110,27 @@ public class CustomerController {
                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); // Unexpected server error
            }
          }
+
+         //TODO: GetSelectedCustomerId
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<CustomerResponse> getSelectCustomer(@PathVariable("id") String id) {
+        CustomerResponse customer = customerService.getSelectedCustomer(id);
+        if (customer == null) {
+            return new ResponseEntity<>( HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(customer, HttpStatus.OK);
     }
+
+    //TODO: GetAllCustomer
+    @GetMapping
+    public ResponseEntity<List<CustomerDTO>> getAllCustomer(){
+        List<CustomerDTO> customerDTOS = customerService.getAllCustomers();
+        if (!customerDTOS.isEmpty()){
+            return new ResponseEntity<>(customerDTOS,HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+    }
+
+}
 

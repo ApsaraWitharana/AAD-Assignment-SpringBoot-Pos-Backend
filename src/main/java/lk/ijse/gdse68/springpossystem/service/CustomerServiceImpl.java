@@ -1,5 +1,6 @@
 package lk.ijse.gdse68.springpossystem.service;
 
+import lk.ijse.gdse68.springpossystem.customerObj.CustomerErrorResponse;
 import lk.ijse.gdse68.springpossystem.customerObj.CustomerResponse;
 import lk.ijse.gdse68.springpossystem.dao.CustomerDAO;
 import lk.ijse.gdse68.springpossystem.dto.CustomerDTO;
@@ -11,6 +12,7 @@ import lk.ijse.gdse68.springpossystem.util.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -71,11 +73,30 @@ public class CustomerServiceImpl implements CustomerService{
 
     @Override
     public CustomerResponse getSelectedCustomer(String id) {
-        return null;
+
+        if (customerDAO.existsById(id)) {
+            Customer customerEntityById = customerDAO.getCustomerById(id);
+            return (CustomerResponse) mapping.convertToDTO(customerEntityById);
+        } else {
+            return new CustomerErrorResponse(0, "Customer not found!");
+
+        }
     }
+
+
 
     @Override
     public List<CustomerDTO> getAllCustomers() {
-        return null;
+       List<Customer> customers = customerDAO.findAll();
+       List<CustomerDTO> customerDTOS = new ArrayList<>();
+       for (Customer customer: customers){
+           CustomerDTO customerDTO = new CustomerDTO();
+           customerDTO.setId(customer.getId());
+           customerDTO.setName(customer.getName());
+           customerDTO.setAddress(customer.getAddress());
+           customerDTO.setSalary(customer.getSalary());
+           customerDTOS.add(customerDTO);
+       }
+       return customerDTOS;
     }
 }
