@@ -30,6 +30,7 @@ public class CustomerController {
 
     //TODO:Customer CRUD Implement
 
+    //TODO: Save Customer
     @PostMapping
     public ResponseEntity<String> saveCustomer(@RequestBody CustomerDTO customerDTO){
         //TODO : Validate
@@ -63,6 +64,7 @@ public class CustomerController {
             }
         }
 
+        //TODO: Update Customer
         @PatchMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
         public ResponseEntity<String> updateCustomer(@PathVariable ("id") String id , @RequestBody CustomerDTO customerDTO) {
 
@@ -89,5 +91,18 @@ public class CustomerController {
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
+
+        //TODO: Delete Customer
+         @DeleteMapping(value = "/{id}")
+         public ResponseEntity<String> deleteCustomer(@PathVariable("id") String id){
+           try {
+               customerService.deleteCustomer(id);
+               return new ResponseEntity<>(HttpStatus.NO_CONTENT); // Deletion successful
+           }catch (CustomerNoteFound e){
+               return new ResponseEntity<>("Customer Delete not found!",HttpStatus.NO_CONTENT); // Customer does not exist
+           }catch (Exception e){
+               return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); // Unexpected server error
+           }
+         }
     }
 
