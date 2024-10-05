@@ -83,6 +83,7 @@ public class CustomerController {
             }
             try {
                 customerService.updateCustomer(id, customerDTO);
+                logger.info("Customer Update Successfully!!");
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
             } catch (CustomerNoteFound e) {
@@ -97,6 +98,7 @@ public class CustomerController {
          public ResponseEntity<String> deleteCustomer(@PathVariable("id") String id){
            try {
                customerService.deleteCustomer(id);
+               logger.info("Customer Delete Successfully!!");
                return new ResponseEntity<>(HttpStatus.NO_CONTENT); // Deletion successful
            }catch (CustomerNoteFound e){
                return new ResponseEntity<>("Customer Delete not found!",HttpStatus.NO_CONTENT); // Customer does not exist
