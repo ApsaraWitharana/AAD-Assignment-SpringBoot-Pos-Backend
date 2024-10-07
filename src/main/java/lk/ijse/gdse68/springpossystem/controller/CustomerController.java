@@ -1,6 +1,6 @@
 package lk.ijse.gdse68.springpossystem.controller;
 
-import lk.ijse.gdse68.springpossystem.customerObj.CustomerErrorResponse;
+
 import lk.ijse.gdse68.springpossystem.customerObj.CustomerResponse;
 import lk.ijse.gdse68.springpossystem.dto.CustomerDTO;
 import lk.ijse.gdse68.springpossystem.entity.Customer;
