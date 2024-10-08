@@ -107,7 +107,9 @@ public class CustomerController {
            }catch (CustomerNoteFound e){
                return new ResponseEntity<>("Customer Delete not found!",HttpStatus.NO_CONTENT); // Customer does not exist
            }catch (Exception e){
-               return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); // Unexpected server error
+               return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+
+
            }
          }
 

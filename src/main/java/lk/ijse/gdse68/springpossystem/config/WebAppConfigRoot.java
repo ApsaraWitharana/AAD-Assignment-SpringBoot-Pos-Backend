@@ -38,7 +38,6 @@ public class WebAppConfigRoot {
         dbms.setPassword("ijse@2001");
         return dbms;
     }
-
     public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean(){
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         vendorAdapter.setGenerateDdl(true);
