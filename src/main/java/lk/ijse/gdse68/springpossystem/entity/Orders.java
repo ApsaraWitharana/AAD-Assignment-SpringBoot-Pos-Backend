@@ -1,24 +1,34 @@
 package lk.ijse.gdse68.springpossystem.entity;
 
 import jakarta.persistence.*;
-import lk.ijse.gdse68.springpossystem.dao.CustomerDAO;
+
+import lk.ijse.gdse68.springpossystem.customerObj.PlaceOrderResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.List;
+
+/**
+ * @author : sachini
+ * @date : 2024-10-12
+ **/
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Entity
-public class Orders {
+public class Orders implements Serializable, PlaceOrderResponse {
     @Id
     private String order_id;
-    @ManyToOne(cascade = {CascadeType.REFRESH,CascadeType.DETACH})
+    @ManyToOne
     @JoinColumn(name = "customer_id",referencedColumnName = "id",nullable = false)
-    private Customer customer_id;
+    private Customer customer;
     private LocalDate date;
+    private double total;
+    private double txtCash;
+    private double tatDiscount;
     @OneToMany(mappedBy = "orders",cascade = CascadeType.ALL)
-    private List<OrderDetails> orderDetails;
+    private OrderDetails orderDetails;
+
 }

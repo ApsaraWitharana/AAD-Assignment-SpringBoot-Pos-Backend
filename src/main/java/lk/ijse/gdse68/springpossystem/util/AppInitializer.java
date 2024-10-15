@@ -1,7 +1,5 @@
 package lk.ijse.gdse68.springpossystem.util;
 
-import lk.ijse.gdse68.springpossystem.config.WebAppConfig;
-import lk.ijse.gdse68.springpossystem.config.WebAppConfigRoot;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 /**
