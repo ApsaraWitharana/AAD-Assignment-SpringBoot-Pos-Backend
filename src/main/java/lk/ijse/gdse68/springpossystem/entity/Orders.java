@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * @author : sachini
@@ -29,6 +30,6 @@ public class Orders implements Serializable, PlaceOrderResponse {
     private double txtCash;
     private double tatDiscount;
     @OneToMany(mappedBy = "orders",cascade = CascadeType.ALL)
-    private OrderDetails orderDetails;
+    private List<OrderDetails> orderDetails;
 
 }
